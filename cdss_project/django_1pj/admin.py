@@ -1,34 +1,7 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import DoctorProfile, Patient, Announcement, Drug, DrugInteraction
+from .models import Patient, Announcement, Drug, DrugInteraction
 
-
-class DoctorProfileInline(admin.StackedInline):
-    """User 모델에 DoctorProfile을 인라인으로 추가"""
-    model = DoctorProfile
-    can_delete = False
-    verbose_name = '의사 프로필'
-    verbose_name_plural = '의사 프로필'
-    fields = ('doctor_id', 'doctor_name', 'doctor_sex', 'doctor_phone', 'doctor_email', 'doctor_status', 'profile_image')
-
-
-class UserAdmin(BaseUserAdmin):
-    """확장된 User 관리자"""
-    inlines = (DoctorProfileInline,)
-    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff', 'get_doctor_name']
-    
-    def get_doctor_name(self, obj):
-        try:
-            return obj.doctorprofile.doctor_name
-        except:
-            return '-'
-    get_doctor_name.short_description = '의사 이름'
-
-
-# 기존 User 관리자를 해제하고 새로운 것으로 등록
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+# User와 DoctorProfile은 CDSS 관리자(/cdss-admin/)에서 관리
 
 
 @admin.register(Announcement)
