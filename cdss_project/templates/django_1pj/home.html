@@ -142,7 +142,29 @@
         .info-icon {
             font-size: 16px;
         }
-        
+
+        .status-select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #f0f0f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            background-color: white;
+            transition: all 0.2s;
+        }
+
+        .status-select:hover {
+            border-color: #667eea;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
         .add-patient-btn {
             width: 100%;
             padding: 15px;
@@ -521,7 +543,7 @@
             <form method="get" action="{% url 'home' %}" style="display: inline;">
                 <input type="text" name="search" class="search-input" placeholder="🔍 Search Patient" value="{{ search_query }}">
             </form>
-            <a href="{% url 'logout' %}" class="logout-btn">로그아웃</a>
+            <a href="{% url 'doctor_logout' %}" class="logout-btn">로그아웃</a>
         </div>
     </div>
     
@@ -537,8 +559,17 @@
                     {% endif %}
                 </div>
                 <div class="doctor-name">{{ doctor.doctor_name }}</div>
-                <div class="doctor-status">{{ doctor.doctor_status }}</div>
-                
+
+                <!-- 상태 변경 폼 -->
+                <form method="post" action="{% url 'doctor_status_change' %}" style="margin: 15px 0;">
+                    {% csrf_token %}
+                    <select name="status" onchange="this.form.submit()" class="status-select">
+                        <option value="진료중" {% if doctor.doctor_status == '진료중' %}selected{% endif %}>🟢 진료중</option>
+                        <option value="진료외" {% if doctor.doctor_status == '진료외' %}selected{% endif %}>🟡 진료외</option>
+                        <option value="휴무" {% if doctor.doctor_status == '휴무' %}selected{% endif %}>🔴 휴무</option>
+                    </select>
+                </form>
+
                 <div class="doctor-info">
                     <div class="info-item">
                         <span class="info-icon">🆔</span>

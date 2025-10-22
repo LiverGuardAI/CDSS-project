@@ -100,7 +100,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Authentication backends
+AUTHENTICATION_BACKENDS = [
+    'django_1pj.backends.DoctorAuthenticationBackend',  # 의사 인증 백엔드
+    'django.contrib.auth.backends.ModelBackend',  # Superuser 인증 백엔드
+]
+
 # Login URLs
-LOGIN_URL = '/login/'
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/home/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'

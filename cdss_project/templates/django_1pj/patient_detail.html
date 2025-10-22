@@ -384,7 +384,7 @@
         </div>
         <div class="header-right">
             <a href="{% url 'home' %}" class="btn btn-outline">← 환자 목록</a>
-            <a href="{% url 'logout' %}" class="btn btn-outline">로그아웃</a>
+            <a href="{% url 'doctor_logout' %}" class="btn btn-outline">로그아웃</a>
         </div>
     </div>
 
@@ -515,22 +515,20 @@
                 </div>
             </div>
 
-            <!-- CT 이미지 -->
+            <!-- CT 이미지 (읽기 전용) -->
+            {% if patient.ct_image %}
             <div class="content-card">
                 <div class="section-title">🩻 간암 CT 이미지</div>
                 <div class="ct-image-section">
-                    {% if patient.ct_image %}
-                        <div class="ct-image-container">
-                            <img src="{{ patient.ct_image.url }}" alt="CT 이미지">
-                        </div>
-                    {% else %}
-                        <div class="no-image">
-                            <div class="no-image-icon">📄</div>
-                            <p>등록된 CT 이미지가 없습니다.</p>
-                        </div>
-                    {% endif %}
+                    <div class="ct-image-container">
+                        <img src="{{ patient.ct_image.url }}" alt="CT 이미지" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    </div>
+                    <p style="text-align: center; color: #999; font-size: 13px; margin-top: 15px;">
+                        ※ 환자 CT 자료
+                    </p>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 

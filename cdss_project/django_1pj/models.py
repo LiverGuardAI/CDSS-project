@@ -1,10 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
 
 class DoctorProfile(models.Model):
-    """의사 프로필 모델"""
+    """의사 프로필 모델 - User 모델과 완전히 독립"""
     doctor_id = models.CharField(max_length=50, primary_key=True, verbose_name="의사 ID")
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    password = models.CharField(max_length=128, verbose_name="비밀번호")  # 해시된 비밀번호 저장
     doctor_name = models.CharField(max_length=100, verbose_name="이름")
     doctor_sex = models.CharField(
         max_length=10,
@@ -25,6 +25,7 @@ class DoctorProfile(models.Model):
     )
     profile_image = models.ImageField(upload_to='doctor_profiles/', verbose_name="프로필 이미지", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(null=True, blank=True, verbose_name="마지막 로그인")
 
     class Meta:
         verbose_name = "의사 프로필"
@@ -32,6 +33,14 @@ class DoctorProfile(models.Model):
 
     def __str__(self):
         return f"{self.doctor_name} ({self.doctor_id})"
+
+    def set_password(self, raw_password):
+        """비밀번호를 해시하여 저장"""
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        """비밀번호 확인"""
+        return check_password(raw_password, self.password)
 
 
 class Announcement(models.Model):

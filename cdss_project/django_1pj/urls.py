@@ -2,16 +2,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.login_view, name='login'),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    # 의사 로그인 (기본 URL)
+    path('', views.doctor_login_view, name='doctor_login'),
+    path('logout/', views.doctor_logout_view, name='doctor_logout'),
+
+    # 의사 홈 및 환자 관리
     path('home/', views.home_view, name='home'),
+    path('doctor/status/change/', views.doctor_status_change_view, name='doctor_status_change'),
     path('patient/add/', views.patient_add_view, name='patient_add'),
     path('patient/<str:patient_id>/', views.patient_detail_view, name='patient_detail'),
+    path('patient/<str:patient_id>/edit/', views.patient_edit_view, name='patient_edit'),
     path('patient/<str:patient_id>/delete/', views.patient_delete_view, name='patient_delete'),
-
-    # CDSS 관리자
-    path('cdss-admin/', views.cdss_admin_view, name='cdss_admin'),
-    path('cdss-admin/doctor/add/', views.cdss_admin_doctor_add_view, name='cdss_admin_doctor_add'),
-    path('cdss-admin/doctor/<str:doctor_id>/delete/', views.cdss_admin_doctor_delete_view, name='cdss_admin_doctor_delete'),
 ]
