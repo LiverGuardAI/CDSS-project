@@ -55,12 +55,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'LiverGuardAI',          # <-- 1. 데이터베이스 이름
-        'USER': 'acorn',       # <-- 2. 사용자 ID
-        'PASSWORD': 'acorn1234', # <-- 3. 비밀번호
-        'HOST': '34.55.49.77',        # <-- 4. DB 서버 주소 (보통 'localhost' 또는 '127.0.0.1')
-        'PORT': '3306',             # <-- 5. 포트 (MySQL 기본값)
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'LiverGuard',     # DB 이름
+        'USER': 'acorn',             # 사용자 이름
+        'PASSWORD': 'acorn1234',   # 비밀번호
+        'HOST': '34.55.49.77',       # DB 주소
+        'PORT': '3306',              # 포트
+        'OPTIONS': {
+            'charset': 'utf8mb4',    # 한글 깨짐 방지
+        },
     }
 }
 
